@@ -14,7 +14,7 @@ function Header() {
                             <div className="center-desk">
                                 <div className="logo">
                                     <a href="/">
-                                        <img src="src/logo.png" alt="#" />
+                                        <img src={logo} alt="#" />
                                     </a>
                                 </div>
                             </div>
