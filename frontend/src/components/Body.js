@@ -10,20 +10,37 @@ function Body() {
     };
 
     return (
-        <div className="intro">
-            <h1>Welcome to the Cyber Security Checklist!</h1>
+        <div>
+            <h1>Welcome to the Cyber Security Password Evaluator!</h1>
 
             <p>
                 This website is dedicated to ensure that every user is being
                 cyber safe while on the Internet.
             </p>
 
-            <FormField onChange={updateBar} />
+            <FormField
+                style={{
+                    marginTop: "30px",
+                    marginBottom: "30px",
+                    display: "grid",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                }}
+                onChange={updateBar}
+            />
 
-            <label htmlFor="password">Password Strength:</label>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "10px",
+                }}
+            >
+                <label htmlFor="password">Password Strength:</label>
 
-            <div id="strength-bar">
-                <div style={{ width: "0%" }} id="bar"></div>
+                <div id="strength-bar">
+                    <div style={{ width: "0%" }} id="bar"></div>
+                </div>
             </div>
         </div>
     );

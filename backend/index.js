@@ -4,7 +4,7 @@ const path = require("path");
 
 const functions = require("./dep");
 
-const PORT = 5000;
+const PORT = 3000;
 const app = express();
 
 app.use(cors());
@@ -17,10 +17,10 @@ app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 app.post("/api/pwds", (req, res) => {
     const password = req.body.value;
     const data = {
-        time: functions.get_time(password),
-        pwnd: functions.getCompromised(password),
+        time: functions.str_info(password),
         valid: functions.validPassword(password),
     };
+    console.log(data);
     res.send(data);
 });
 

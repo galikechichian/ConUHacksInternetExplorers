@@ -1,8 +1,8 @@
 import axios from "axios";
-import {pwnedPassword} from "hibp";
+import { pwnedPassword } from "hibp";
 import { useEffect, useState } from "react";
 
-function FormField({ onChange }) {
+function FormField({ onChange, style }) {
     const [data, setData] = useState();
     const [numPwns, setNumPwns] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -10,20 +10,18 @@ function FormField({ onChange }) {
 
     useEffect(() => {
         setLoading(true);
-        axios
-        .post("http://localhost:5000/api/pwds", { value: password })
-        .then((res) => {
+        axios.post("/api/pwds", { value: password }).then((res) => {
             setData(res.data);
             setLoading(false);
         });
     }, [password]);
 
     const handleChange = (e) => {
+        onChange();
         setPassword(e.target.value);
         pwnedPassword(password).then((numPwns) => {
             setNumPwns(numPwns);
         });
-        onChange();
     };
 
     const handleChecked = (e) =>
@@ -32,7 +30,7 @@ function FormField({ onChange }) {
             : (document.querySelector("#password-input").type = "password");
 
     return (
-        <div style={{ marginTop: "30px" }}>
+        <div style={style}>
             <div
                 style={{
                     display: "flex",
@@ -61,7 +59,11 @@ function FormField({ onChange }) {
             ) : (
                 <>
                     <label id="result-label">{data.time}</label>
-                    <h2 id="pwn" > Number of times your password has been leaked: {password ? numPwns : 0} </h2>
+                    <h2 id="pwn">
+                        {" "}
+                        Number of times your password has been leaked:{" "}
+                        {password ? numPwns : 0}{" "}
+                    </h2>
                 </>
             )}
         </div>

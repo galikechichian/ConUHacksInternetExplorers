@@ -1,0 +1,18 @@
+{
+    "short_name": "Password Evaluation Tool",
+    "name": "Password Evaluation Tool",
+    "icons": [
+        {
+            "src": "logo.png",
+            "type": "image/png"
+        },
+        {
+            "src": "banner.png",
+            "type": "image/png"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}

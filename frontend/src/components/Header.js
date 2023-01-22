@@ -1,13 +1,9 @@
 import logo from "./logo.png";
-import { Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-const headerStyles = {
-    position: "absolute",
-};
-
-function Header() {
+function Header({ style }) {
     return (
-        <div>
+        <div style={style}>
             <Link to="/">Password Evaluation</Link>
             <br />
             <Link to="/about">About us</Link>
@@ -19,7 +15,11 @@ function Header() {
                                 <div className="center-desk">
                                     <div className="logo">
                                         <a href="/">
-                                            <img src={logo} alt="#" />
+                                            <img
+                                                style={{ width: "10vw" }}
+                                                src={logo}
+                                                alt="#"
+                                            />
                                         </a>
                                     </div>
                                 </div>
