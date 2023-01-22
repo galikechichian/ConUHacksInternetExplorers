@@ -1,117 +1,124 @@
-//HAVE I BEEN PWND????????
-// function hibp(password)
-// {
-//     let hibp = require('hibp');
-//     console.log("This is the number of times the password has been leaked: ")
-//     hibp.pwnedPassword(password).then(numPwns => console.log(numPwns))
-// }
+const regExpWeak = /[a-z]/;
+const regExpMedium = /\d+/;
+const regExpStrong = /.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/;
+const min_week_password = 4;
+const min_medium_password = 8;
+const min_strong_password = 15;
 
-// hibp("Selim")
+const CHARACTERS = "`~!@#$%^&*()-_=+[]{}/|':;'?.>,<";
+const SPECIAL = 20;
+const ALPHA = 26;
+const DIGITS = 10;
 
-
-// //Check password length function
-// function checkPasswordLength(password)
-// {
-//     return Number(password.length >= 15);
-// }
-
-// //
-
-
-
-
-// // Function to check the strength of a password
-// function checkPasswordStrength(password) {
-//     var hasUpperCase = /[A-Z]/.test(password);
-//     var hasLowerCase = /[a-z]/.test(password);
-//     var hasNumbers = /\d/.test(password);
-//     var hasSpecialChars = /[!@#\$%\^\&*\)\(+=._-]/.test(password);
-//     var score = 0;
-//     var feedback = "";
-    
-//     // check for minimum length
-//     if (password.length < 8) {
-//         feedback = "Password is too short";
-//         return {score: score, feedback: feedback};
-//     }
-//     // check for minimum number of required character types
-//     if (!hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChars) {
-//         feedback = "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character";
-//         return {score: score, feedback: feedback};
-//     }
-//     // check for common passwords
-
-//     // if (commonPasswords.indexOf(password) !== -1) {
-//     //     feedback = "Password is too common";
-//     //     return {score: score, feedback: feedback};
-//     // }
-
-    
-//     // check for character types
-//     score += (hasUpperCase ? 2 : 0);
-//     score += (hasLowerCase ? 2 : 0);
-//     score += (hasNumbers ? 4 : 0);
-//     score += (hasSpecialChars ? 6 : 0);
-//     // check for numbers only or letters only
-//     if (password.match(/^[0-9]+$/) || password.match(/^[a-zA-Z]+$/)) {
-//         score -= password.length;
-//         feedback = "Password should not contain only numbers or letters";
-//     }
-//     // check for repeating characters
-//     var repeat = new RegExp("(.)\\1{2,}", "g");
-//     if (password.match(repeat)) {
-//         let num = password.match(repeat)
-//         console.log(num)
-//         score -= password.length;
-//         feedback = "Password should not contain repeating characters";
-//     }
-//     // check for sequential characters
-//     var sequential = new RegExp("abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz", "gi");
-//     if (password.match(sequential)) {
-//         score -= password.length;
-//         feedback = "Password should not contain sequential characters";
-//     }
-
-//     // // check for password length (DONE)
-//     score += password.length * 4;
-//     score += (checkPasswordLength(password));
-//     // assign a score
-//     if (score < 20) {
-//         feedback = "Weak";
-//     } else if (score < 40) {
-//         feedback = "Moderate";
-//     } else {
-//         feedback = "Strong";
-//     }
-//     return {score: score, feedback: feedback};
-    
-// }
-
-// console.log(checkPasswordStrength("llllllllllllllllllllllllllL0)"))
-
-
-const input = document.querySelector("input");
-const text = document.querySelector("span");
-input.addEventListener('input', validPassword);
-let regExpWeak = /[a-z]/;
-let regExpMedium = /\d+/;
-let regExpStrong = /.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/;
-let min_week_password = 3;
-let min_medium_password = 6;
-let min_strong_password = 6;
-function validPassword() {
-  let input_week = input.value.match(regExpWeak);
-  let input_medium = input.value.match(regExpMedium);
-  let input_strong = input.value.match(regExpStrong);
-  if (input.value) {
-    if (input.value.length <= min_week_password && (input_week || input_medium || input_strong)) {
-      text.textContent = "Your password is too week";
+function special_char(password) {
+    for (const char of CHARACTERS) {
+        if (password.includes(char)) {
+            return true;
+        }
     }
-    if (input.value.length >= min_medium_password && ((input_week && input_medium) || (input_medium && input_strong) || (input_week && input_strong))) {
-      text.textContent = "Your password is medium";
-    }
-    if (input.value.length >= min_strong_password && input_week && input_medium && input_strong) {
-      text.textContent = "Your password is strong";
-    }
-  }
+    return false;
 }
+
+function get_possible_chars(password) {
+    if (password.match(/^[a-zA-Z]+$/)) {
+        return ["alpha"];
+    }
+    if (password.match(/^[0-9]+$/)) {
+        return ["digit"];
+    }
+
+    if (!special_char(password)) {
+        return ["alpha, digit"];
+    }
+
+    const to_return = [];
+    if (password.match(/[a-zA-Z]/)) {
+        to_return.push("alpha");
+    }
+    if (password.match(/\d/)) {
+        to_return.push("digit");
+    }
+    if (special_char(password)) {
+        to_return.push("special");
+    }
+
+    return to_return;
+}
+
+function get_hash_rate(password) {
+    console.log("implement hash rate calculator");
+    return 1_000_000_000;
+}
+
+function get_time(password) {
+    // using entropy calculation
+    const possible_chars = get_possible_chars(password);
+    let N = 0;
+    for (const type of possible_chars) {
+        if (type === "alpha") {
+            N += ALPHA;
+        } else if (type === "digit") {
+            N += DIGITS;
+        } else {
+            N += SPECIAL;
+        }
+    }
+
+    const s = password.length;
+    N = Math.pow(N, s);
+    const C = get_hash_rate(password);
+
+    // use formula: T = C / (N * s) to get time in seconds
+    return C / (N * s) / 1000;
+}
+
+function hibp(password) {
+    let hibp = require("hibp");
+    console.log("This is the number of times the password has been leaked: ");
+    hibp.pwnedPassword(password).then((numPwns) => console.log(numPwns));
+}
+
+function validPassword(input) {
+    let text;
+    const input_week = input.match(regExpWeak);
+    const input_strong = input.match(regExpStrong);
+    const input_medium = input.match(regExpMedium);
+    if (input) {
+        if (
+            input.length <= min_week_password &&
+            (input_week || input_medium || input_strong)
+        ) {
+            text = "Your password is too week";
+        }
+        if (
+            input.length >= min_medium_password &&
+            ((input_week && input_medium) ||
+                (input_medium && input_strong) ||
+                (input_week && input_strong))
+        ) {
+            text = "Your password is medium";
+        }
+        if (
+            input.length >= min_strong_password &&
+            input_week &&
+            input_medium &&
+            input_strong
+        ) {
+            text = "Your password is strong";
+        }
+    }
+    return text;
+}
+
+console.log(
+    get_time("lehqif;lekjf;qwekjqoweijfqoweijfqw[p9ruq[09r[09rpopifjpaoeof")
+);
+
+module.exports = {
+    validPassword,
+    hibp,
+    get_time,
+    get_hash_rate,
+    get_possible_chars,
+    special_char,
+};
