@@ -1,4 +1,5 @@
 import FormField from "./FormField";
+import "../Body.css";
 
 function Body() {
     const updateBar = () => {
