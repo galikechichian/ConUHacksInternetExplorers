@@ -6,12 +6,11 @@ import Body from "./components/Body";
 
 function App() {
     return (
-// <<<<<<< Updated upstream
         <Router>
             <>
-                <Link to="/">Password Evaluation</Link>
+                {/* <Link to="/">Password Evaluation</Link>
                 <br />
-                <Link to="/about">About us</Link>
+                <Link to="/about">About us</Link> */}
                 <Header />
                 <Routes>
                     <Route exact path="/" element={<Body />} />
