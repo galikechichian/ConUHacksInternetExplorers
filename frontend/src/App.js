@@ -6,6 +6,7 @@ import Body from "./components/Body";
 
 function App() {
     return (
+// <<<<<<< Updated upstream
         <Router>
             <>
                 <Link to="/">Password Evaluation</Link>
@@ -18,11 +19,6 @@ function App() {
                 </Routes>
             </>
         </Router>
-        // <>
-        //     <Header />
-        //     <Body />
-        // </>
-    );
-}
+)}
 
 export default App;
