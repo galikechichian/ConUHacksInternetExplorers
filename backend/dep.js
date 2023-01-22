@@ -1,3 +1,5 @@
+const hibp = require("hibp");
+
 const regExpWeak = /[a-z]/;
 const regExpMedium = /\d+/;
 const regExpStrong = /.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/;
@@ -45,8 +47,7 @@ function get_possible_chars(password) {
     return to_return;
 }
 
-function get_hash_rate(password) {
-    console.log("implement hash rate calculator");
+function get_hash_rate() {
     return 1_000_000_000;
 }
 
@@ -66,14 +67,13 @@ function get_time(password) {
 
     const s = password.length;
     N = Math.pow(N, s);
-    const C = get_hash_rate(password);
+    const C = get_hash_rate();
 
     // use formula: T = C / (N * s) to get time in seconds
     return C / (N * s) / 1000;
 }
 
-function hibp(password) {
-    let hibp = require("hibp");
+function getCompromised(password) {
     console.log("This is the number of times the password has been leaked: ");
     hibp.pwnedPassword(password).then((numPwns) => console.log(numPwns));
 }
@@ -110,15 +110,10 @@ function validPassword(input) {
     return text;
 }
 
-console.log(
-    get_time("lehqif;lekjf;qwekjqoweijfqoweijfqw[p9ruq[09r[09rpopifjpaoeof")
-);
-
 module.exports = {
     validPassword,
-    hibp,
+    getCompromised,
     get_time,
-    get_hash_rate,
     get_possible_chars,
     special_char,
 };
